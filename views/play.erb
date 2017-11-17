@@ -1,0 +1,8 @@
+<div id="content">
+  <%= @word.gsub(/\p{Upper}/, '_').upcase  %>
+</div>
+<form action="/play" method="post" id="guess">
+  <input type="hidden" name="_method" value="put">
+  <input type="text" name="guess">
+  <input type="submit" value="Update">
+</form>
