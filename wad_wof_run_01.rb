@@ -47,7 +47,7 @@ module WOF_Game
 	if game == "1"
 	# Any code added to command line game should be added below.
 
-	l = -> {
+	l = -> { #Lambda that contains basically the whole game.
 		if g.callmenu == 'Play'
 		until g.getturnsleft == 0
 			word = g.getsecretword
