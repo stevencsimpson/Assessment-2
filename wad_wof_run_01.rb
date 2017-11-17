@@ -197,12 +197,10 @@ end
 
 put '/play' do
 	guess = "#{params[:guess]}".chomp.upcase
-	pp guess
 	@word = session[:word]
 	if @word.include? guess
 		@word.gsub!(guess, guess.downcase)
 	end
-	pp @word
 	session[:word] = @word
 	redirect '/play'
 end
