@@ -192,6 +192,9 @@ end
 
 get '/play' do
 	@word = session[:word]
+	unless @word.gsub(/\p{Upper}/, '_').include? "_"
+		redirect '/win'
+	end
 	erb :play
 end
 
@@ -203,6 +206,10 @@ put '/play' do
 	end
 	session[:word] = @word
 	redirect '/play'
+end
+
+get '/win' do
+	erb :win
 end
 	# Any code added to web-based game should be added above.
 
