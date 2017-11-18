@@ -108,6 +108,16 @@ end
 
 # Sinatra routes
 	# Any code added to web-based game should be added below.
+	GOES = 5
+	def init
+		@wordtable = []
+		@secretword = ""
+		$turn = 0
+		@winner = 0
+		@guess = ""
+		@repeat = 0
+	end
+
 	def readwordfile(filename)
 		@wordtable = []
 		words = 0
@@ -139,11 +149,11 @@ end
 	end
 
 	def incrementturn
-		@turn += 1
+		$turn += 1
 	end
 
 	def getturnsleft
-		@turnsleft = GOES - @turn.to_i
+		@turnsleft = GOES - $turn.to_i
 		return @turnsleft
 	end
 
@@ -184,7 +194,10 @@ end
 		setsecretword(gensecretword)
 	end
 
+# init
+
 get '/' do
+	init
 	newword
 	session[:word] = getsecretword
 	erb :index
@@ -194,6 +207,9 @@ get '/play' do
 	@word = session[:word]
 	unless @word.gsub(/\p{Upper}/, '_').include? "_"
 		redirect '/win'
+	end
+	if getturnsleft == 0
+		redirect '/lose'
 	end
 	erb :play
 end
@@ -205,11 +221,16 @@ put '/play' do
 		@word.gsub!(guess, guess.downcase)
 	end
 	session[:word] = @word
+	incrementturn
 	redirect '/play'
 end
 
 get '/win' do
 	erb :win
+end
+
+get '/lose' do
+	erb :lose
 end
 	# Any code added to web-based game should be added above.
 
